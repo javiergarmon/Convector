@@ -73,7 +73,8 @@ var rsync = function( callback ){
       process.exit( 1 );
     }
 
-    var count = ( stdout.match( /to-check/g ) || [] ).length;
+    // MAC OS and LINUX support (on linux msg from rsync is "to-chk")
+    var count = ( stdout.match( /to-check|to-chk/g ) || [] ).length;
 
     notifier.notify( { 'title': 'Convector', 'message': 'Uploaded ' + count + ( count === 1 ? ' file' : ' files' ), icon: path.join(__dirname, 'img', 'go.png'), sound: true }, function(){} );
     console.log( 'Uploaded ' + count + ( count === 1 ? ' file' : ' files' ) );
