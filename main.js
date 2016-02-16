@@ -68,10 +68,10 @@ var rsync = function( callback ){
 
   execFile( 'rsync', [ '-vrcP', '--exclude=".*"', SOURCE, DESTINY ], { cwd : process.cwd, maxBuffer : 1024 * 1024 * 1024 }, function( error, stdout, stderr ){
 
-    if( stderr ){
+    /*if( stderr ){
       console.log( stderr.red );
       process.exit( 1 );
-    }
+    }*/
 
     // MAC OS and LINUX support (on linux msg from rsync is "to-chk")
     var count = ( stdout.match( /to-check|to-chk/g ) || [] ).length;
