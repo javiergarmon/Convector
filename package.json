@@ -2,7 +2,8 @@
   "name": "convector",
   "version": "0.0.1",
   "description": "Local and remote realtime filesystem sync",
-  "main": "main.js",
+  "main": "./main.js",
+  "bin": "./bin/convector",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
