@@ -3,19 +3,42 @@
 var chokidar = require('chokidar');
 var colors   = require('colors');
 var execFile = require('child_process').execFile;
+var fs       = require('fs');
 var notifier = require('node-notifier');
 var path     = require('path');
 
+// Constants
+const USERPATH = process.env[ process.platform == 'win32' ? 'USERPROFILE' : 'HOME' ];
+
 // Process args
-const SOURCE  = process.argv[ 2 ];
-const DESTINY = process.argv[ 3 ];
+var SOURCE   = process.argv[ 2 ];
+var DESTINY  = process.argv[ 3 ];
 
 if( !SOURCE ){
   return console.error( 'Source is not defined'.red );
 }
 
 if( !DESTINY ){
-  return console.error( 'Destiny is not defined'.red );
+
+  try{
+    var config = fs.readFileSync( path.join( USERPATH, '.convector' ) );
+  }catch(e){
+    return console.error( 'Destiny is not defined'.red );
+  }
+
+  try{
+    config = JSON.parse( config.toString() );
+  }catch(e){
+    return console.error( 'Invalid config file'.red );
+  }
+
+  if( !config[ SOURCE ] ){
+    return console.error( 'Destiny not defined in the config file'.red );
+  }
+
+  DESTINY = config[ SOURCE ].user + '@' + config[ SOURCE ].server + ':' + config[ SOURCE ].destiny;
+  SOURCE  = config[ SOURCE ].source;
+
 }
 
 // Variables
